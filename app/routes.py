@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from pymongo.errors import DuplicateKeyError
 from bson import ObjectId
-from app.models import User  # Mengimpor model User
+from app.models import User  
 from app import mongo
 from marshmallow import Schema, fields, ValidationError
 
@@ -11,14 +11,13 @@ class UserSchema(Schema):
     username = fields.String(required=True)
     password = fields.String(required=True)
 
-# Fungsi untuk memeriksa ketersediaan username
 def validate_username(username):
     users_collection = mongo.db.users
     existing_user = users_collection.find_one({'username': username})
     if existing_user:
         raise ValidationError('Username already exists')
 
-UserSchema.validate_username = validate_username  # Menambahkan validasi custom ke schema
+UserSchema.validate_username = validate_username  
 
 mongo.db.users.create_index([('username', 1)], unique=True)
 
