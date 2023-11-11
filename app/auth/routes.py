@@ -8,6 +8,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 auth_bp = Blueprint('auth', __name__)
 
 class AuthSchema(Schema):
+    name = fields.String(required=True)
     username = fields.String(required=True)
     password = fields.String(required=True)
 
@@ -30,7 +31,7 @@ def register():
 
         if existing_user is None:
             password = sha256_crypt.encrypt(validated_data['password'])
-            users_collection.insert_one({'username': validated_data['username'], 'password': password})
+            users_collection.insert_one({'name': validated_data['name'],'username': validated_data['username'], 'password': password})
             return jsonify({'message': 'Registration successful!'})
         return jsonify({'error': 'Username already exists!'})
 

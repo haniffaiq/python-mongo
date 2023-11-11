@@ -21,9 +21,14 @@ mongo = PyMongo(app)
 # Register blueprints (routes) from app/routes.py
 from app.users.routes import users_bp
 from app.auth.routes import auth_bp
+from app.shop.routes import menu_bp
+from app.order.routes import order_bp
 # from app.routes import routes
 app.register_blueprint(users_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(menu_bp)
+app.register_blueprint(order_bp)
+
 # app.register_blueprint(routes)
 
 
